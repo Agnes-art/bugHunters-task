@@ -17,6 +17,59 @@
 							"listen": "test",
 							"script": {
 								"exec": [
+									"pm.test('Response status code is 200', function () {",
+									"    pm.response.to.have.status(200);",
+									"})",
+									"",
+									"pm.test('Body matches string', function () {",
+									"    pm.expect(pm.response.text()).to.include('apiVersion');",
+									"})",
+									"",
+									"pm.test('Response is an object with specific properties', function () {",
+									"    var jsonData = pm.response.json();",
+									"    console.log(jsonData);",
+									"    pm.expect(jsonData).to.be.an('object');",
+									"    pm.expect(jsonData).to.have.property('apiVersion');",
+									"    pm.expect(jsonData).to.have.property('title');",
+									"    pm.expect(jsonData).to.have.property('paymentCurrency');",
+									"    pm.expect(jsonData).to.have.property('categories');",
+									"    pm.expect(jsonData).to.have.property('scopes');",
+									"    pm.expect(jsonData).to.have.property('apps');",
+									"    pm.expect(jsonData).to.have.property('links');",
+									"})",
+									"",
+									"pm.test('Body matches test', function () {",
+									"    var jsonData = pm.response.json();",
+									"    pm.expect(jsonData.apiVersion).to.eql('7.2.3.0');",
+									"    pm.expect(jsonData.title).to.eql('Fusio');",
+									"    pm.expect(jsonData.paymentCurrency).to.eql('EUR');",
+									"})",
+									"",
+									"pm.test('Body matches categories ', function () {",
+									"    var jsonData = pm.response.json();",
+									"    pm.expect(jsonData.categories[0]).to.eql('authorization');",
+									"    pm.expect(jsonData.categories[1]).to.eql('system');",
+									"    pm.expect(jsonData.categories[2]).to.eql('consumer');",
+									"})",
+									"",
+									"pm.test('Body matches scope', function () {",
+									"    var jsonData = pm.response.json();",
+									"    pm.expect(jsonData.scopes[0]).to.eql('default');",
+									"})",
+									"",
+									"pm.test('Body matches apps', function () {",
+									"    var jsonData = pm.response.json();",
+									"    pm.expect(jsonData.apps.developer).to.eql('https://demo.fusio-project.org/apps/developer');",
+									"    pm.expect(jsonData.apps.fusio).to.eql('https://demo.fusio-project.org/apps/fusio');",
+									"    pm.expect(jsonData.apps.redoc).to.eql('https://demo.fusio-project.org/apps/redoc');",
+									"})",
+									"",
+									"pm.test(\"Body matches links\", function () {",
+									"    var jsonData = pm.response.json();",
+									"    pm.expect(jsonData.links[0].rel).to.eql(\"root\");",
+									"    pm.expect(jsonData.links[1].rel).to.eql(\"openapi\");",
+									"});",
+									"",
 									""
 								],
 								"type": "text/javascript"
@@ -34,12 +87,9 @@
 							"raw": ""
 						},
 						"url": {
-							"raw": "https://demo.fusio-project.org/index.php",
-							"protocol": "https",
+							"raw": "{{baseUrl}}/index.php",
 							"host": [
-								"demo",
-								"fusio-project",
-								"org"
+								"{{baseUrl}}"
 							],
 							"path": [
 								"index.php"
@@ -67,6 +117,64 @@
 							"listen": "test",
 							"script": {
 								"exec": [
+									"var jsonData = pm.response.json();",
+									"console.log(jsonData)",
+									"",
+									"pm.test('Response status code is 200', function () {",
+									"    pm.response.to.have.status(200);",
+									"})",
+									"",
+									"pm.test('Body matches string', function () {",
+									"    pm.expect(pm.response.text()).to.include('apiVersion');",
+									"})",
+									"",
+									"pm.test('Response is an object with specific properties', function () {",
+									"    var jsonData = pm.response.json();",
+									"    console.log(jsonData);",
+									"    pm.expect(jsonData).to.be.an('object');",
+									"    pm.expect(jsonData).to.have.property('apiVersion');",
+									"    pm.expect(jsonData).to.have.property('title');",
+									"    pm.expect(jsonData).to.have.property('paymentCurrency');",
+									"    pm.expect(jsonData).to.have.property('categories');",
+									"    pm.expect(jsonData).to.have.property('scopes');",
+									"    pm.expect(jsonData).to.have.property('apps');",
+									"    pm.expect(jsonData).to.have.property('links');",
+									"})",
+									"",
+									"pm.test('Body matches test', function () {",
+									"    var jsonData = pm.response.json();",
+									"    pm.expect(jsonData.apiVersion).to.eql('7.2.3.0');",
+									"    pm.expect(jsonData.title).to.eql('Fusio');",
+									"    pm.expect(jsonData.paymentCurrency).to.eql('EUR');",
+									"})",
+									"",
+									"pm.test('Body matches categories ', function () {",
+									"    var jsonData = pm.response.json();",
+									"    pm.expect(jsonData.categories[0]).to.eql('authorization');",
+									"    pm.expect(jsonData.categories[1]).to.eql('system');",
+									"    pm.expect(jsonData.categories[2]).to.eql('consumer');",
+									"})",
+									"",
+									"pm.test('Body matches scope', function () {",
+									"    var jsonData = pm.response.json();",
+									"    pm.expect(jsonData.scopes[0]).to.eql('default');",
+									"})",
+									"",
+									"pm.test('Body matches apps', function () {",
+									"    var jsonData = pm.response.json();",
+									"    pm.expect(jsonData.apps.developer).to.eql('https://demo.fusio-project.org/apps/developer');",
+									"    pm.expect(jsonData.apps.fusio).to.eql('https://demo.fusio-project.org/apps/fusio');",
+									"    pm.expect(jsonData.apps.redoc).to.eql('https://demo.fusio-project.org/apps/redoc');",
+									"});",
+									"",
+									"pm.test(\"Body matches links\", function () {",
+									"    var jsonData = pm.response.json();",
+									"    pm.expect(jsonData.links[2].rel).to.eql(\"typeapi\");",
+									"    pm.expect(jsonData.links[3].rel).to.eql(\"route\");",
+									"});",
+									"",
+									"",
+									"",
 									""
 								],
 								"type": "text/javascript"
@@ -77,12 +185,9 @@
 						"method": "GET",
 						"header": [],
 						"url": {
-							"raw": "https://demo.fusio-project.org/index.php/",
-							"protocol": "https",
+							"raw": "{{baseUrl}}/index.php/",
 							"host": [
-								"demo",
-								"fusio-project",
-								"org"
+								"{{baseUrl}}"
 							],
 							"path": [
 								"index.php",
@@ -107,6 +212,76 @@
 			"item": [
 				{
 					"name": "Get entry per ID - Valid ID",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"var jsonData = pm.response.json();",
+									"console.log(jsonData.links[5])",
+									"",
+									"pm.test('Response status code is 200', function () {",
+									"    pm.response.to.have.status(200);",
+									"})",
+									"",
+									"pm.test('Body matches string', function () {",
+									"    pm.expect(pm.response.text()).to.include('apiVersion');",
+									"})",
+									"",
+									"pm.test('Response is an object with specific properties', function () {",
+									"    var jsonData = pm.response.json();",
+									"    console.log(jsonData);",
+									"    pm.expect(jsonData).to.be.an('object');",
+									"    pm.expect(jsonData).to.have.property('apiVersion');",
+									"    pm.expect(jsonData).to.have.property('title');",
+									"    pm.expect(jsonData).to.have.property('paymentCurrency');",
+									"    pm.expect(jsonData).to.have.property('categories');",
+									"    pm.expect(jsonData).to.have.property('scopes');",
+									"    pm.expect(jsonData).to.have.property('apps');",
+									"    pm.expect(jsonData).to.have.property('links');",
+									"})",
+									"",
+									"pm.test('Body matches test', function () {",
+									"    var jsonData = pm.response.json();",
+									"    pm.expect(jsonData.apiVersion).to.eql('7.2.3.0');",
+									"    pm.expect(jsonData.title).to.eql('Fusio');",
+									"    pm.expect(jsonData.paymentCurrency).to.eql('EUR');",
+									"})",
+									"",
+									"pm.test('Body matches categories ', function () {",
+									"    var jsonData = pm.response.json();",
+									"    pm.expect(jsonData.categories[0]).to.eql('authorization');",
+									"    pm.expect(jsonData.categories[1]).to.eql('system');",
+									"    pm.expect(jsonData.categories[2]).to.eql('consumer');",
+									"})",
+									"",
+									"pm.test('Body matches scope', function () {",
+									"    var jsonData = pm.response.json();",
+									"    pm.expect(jsonData.scopes[0]).to.eql('default');",
+									"})",
+									"",
+									"pm.test('Body matches apps', function () {",
+									"    var jsonData = pm.response.json();",
+									"    pm.expect(jsonData.apps.developer).to.eql('https://demo.fusio-project.org/apps/developer');",
+									"    pm.expect(jsonData.apps.fusio).to.eql('https://demo.fusio-project.org/apps/fusio');",
+									"    pm.expect(jsonData.apps.redoc).to.eql('https://demo.fusio-project.org/apps/redoc');",
+									"});",
+									"",
+									"pm.test(\"Body matches links\", function () {",
+									"    var jsonData = pm.response.json();",
+									"    pm.expect(jsonData.links[4].rel).to.eql(\"health\");",
+									"    pm.expect(jsonData.links[5].rel).to.eql(\"oauth2\");",
+									"});",
+									"pm.environment.set(\"entryId\", jsonData.links[5].rel);",
+									"",
+									"",
+									"",
+									""
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
 					"protocolProfileBehavior": {
 						"disableBodyPruning": true
 					},
@@ -118,22 +293,13 @@
 							"raw": ""
 						},
 						"url": {
-							"raw": "https://demo.fusio-project.org/index.php",
-							"protocol": "https",
+							"raw": "{{baseUrl}}/index.php/",
 							"host": [
-								"demo",
-								"fusio-project",
-								"org"
+								"{{baseUrl}}"
 							],
 							"path": [
-								"index.php"
-							],
-							"query": [
-								{
-									"key": "",
-									"value": "",
-									"disabled": true
-								}
+								"index.php",
+								""
 							]
 						},
 						"description": "https://demo.fusio-project.org/index.php/todo/:todo_id"
@@ -146,12 +312,9 @@
 						"method": "GET",
 						"header": [],
 						"url": {
-							"raw": "https://demo.fusio-project.org/",
-							"protocol": "https",
+							"raw": "{{baseUrl}}/",
 							"host": [
-								"demo",
-								"fusio-project",
-								"org"
+								"{{baseUrl}}"
 							],
 							"path": [
 								""
@@ -169,551 +332,6 @@
 					"response": []
 				}
 			]
-		},
-		{
-			"name": "Get Books",
-			"item": [
-				{
-					"name": "Get All Books",
-					"event": [
-						{
-							"listen": "test",
-							"script": {
-								"exec": [
-									"pm.test(\"Status code should be 200\", function () {",
-									"",
-									"    pm.response.to.have.status(200);",
-									"});"
-								],
-								"type": "text/javascript"
-							}
-						}
-					],
-					"request": {
-						"auth": {
-							"type": "bearer",
-							"bearer": [
-								{
-									"key": "token",
-									"value": "540bd43cf706368d43ecbfd49df5a059c92c9f3306de459bf39c3a29b96ebfe5",
-									"type": "string"
-								}
-							]
-						},
-						"method": "GET",
-						"header": [],
-						"url": {
-							"raw": "https://simple-books-api.glitch.me/books",
-							"protocol": "https",
-							"host": [
-								"simple-books-api",
-								"glitch",
-								"me"
-							],
-							"path": [
-								"books"
-							],
-							"query": [
-								{
-									"key": "",
-									"value": "",
-									"disabled": true
-								}
-							]
-						}
-					},
-					"response": []
-				},
-				{
-					"name": "Get Books by ID",
-					"event": [
-						{
-							"listen": "test",
-							"script": {
-								"exec": [
-									"",
-									"pm.test(\"Response status code is 200\", function () {",
-									"    pm.expect(pm.response.code).to.equal(200);",
-									"});",
-									"",
-									"",
-									"",
-									"",
-									""
-								],
-								"type": "text/javascript"
-							}
-						}
-					],
-					"request": {
-						"method": "GET",
-						"header": [],
-						"url": {
-							"raw": "https://simple-books-api.glitch.me/books/2",
-							"protocol": "https",
-							"host": [
-								"simple-books-api",
-								"glitch",
-								"me"
-							],
-							"path": [
-								"books",
-								"2"
-							],
-							"query": [
-								{
-									"key": "",
-									"value": "",
-									"disabled": true
-								}
-							]
-						}
-					},
-					"response": []
-				},
-				{
-					"name": "Get Books by Type",
-					"event": [
-						{
-							"listen": "test",
-							"script": {
-								"exec": [
-									"pm.test(\"Status code is 200\", function () {",
-									"    pm.response.to.have.status(200);",
-									"});"
-								],
-								"type": "text/javascript"
-							}
-						}
-					],
-					"request": {
-						"method": "GET",
-						"header": [],
-						"url": {
-							"raw": "https://simple-books-api.glitch.me/books?type=fiction",
-							"protocol": "https",
-							"host": [
-								"simple-books-api",
-								"glitch",
-								"me"
-							],
-							"path": [
-								"books"
-							],
-							"query": [
-								{
-									"key": "type",
-									"value": "fiction"
-								}
-							]
-						}
-					},
-					"response": []
-				}
-			]
-		},
-		{
-			"name": "Place a book order",
-			"item": [
-				{
-					"name": "Place a book order - using book ID",
-					"event": [
-						{
-							"listen": "test",
-							"script": {
-								"exec": [
-									""
-								],
-								"type": "text/javascript"
-							}
-						}
-					],
-					"request": {
-						"auth": {
-							"type": "bearer",
-							"bearer": [
-								{
-									"key": "token",
-									"value": "540bd43cf706368d43ecbfd49df5a059c92c9f3306de459bf39c3a29b96ebfe5",
-									"type": "string"
-								}
-							]
-						},
-						"method": "POST",
-						"header": [],
-						"body": {
-							"mode": "raw",
-							"raw": "{\n    \"bookId\": 2,\n    \"customerName\": \"Testify Academy\"\n}",
-							"options": {
-								"raw": {
-									"language": "json"
-								}
-							}
-						},
-						"url": {
-							"raw": "https://simple-books-api.glitch.me/orders",
-							"protocol": "https",
-							"host": [
-								"simple-books-api",
-								"glitch",
-								"me"
-							],
-							"path": [
-								"orders"
-							]
-						}
-					},
-					"response": []
-				}
-			]
-		},
-		{
-			"name": "Get an order",
-			"item": [
-				{
-					"name": "Get all orders",
-					"event": [
-						{
-							"listen": "test",
-							"script": {
-								"exec": [
-									""
-								],
-								"type": "text/javascript"
-							}
-						}
-					],
-					"protocolProfileBehavior": {
-						"disableBodyPruning": true
-					},
-					"request": {
-						"auth": {
-							"type": "bearer",
-							"bearer": [
-								{
-									"key": "token",
-									"value": "540bd43cf706368d43ecbfd49df5a059c92c9f3306de459bf39c3a29b96ebfe5",
-									"type": "string"
-								}
-							]
-						},
-						"method": "GET",
-						"header": [],
-						"body": {
-							"mode": "raw",
-							"raw": "",
-							"options": {
-								"raw": {
-									"language": "json"
-								}
-							}
-						},
-						"url": {
-							"raw": "https://simple-books-api.glitch.me/orders",
-							"protocol": "https",
-							"host": [
-								"simple-books-api",
-								"glitch",
-								"me"
-							],
-							"path": [
-								"orders"
-							],
-							"query": [
-								{
-									"key": "",
-									"value": "",
-									"disabled": true
-								}
-							]
-						}
-					},
-					"response": []
-				},
-				{
-					"name": "Get an order - using orderID",
-					"event": [
-						{
-							"listen": "test",
-							"script": {
-								"exec": [
-									""
-								],
-								"type": "text/javascript"
-							}
-						}
-					],
-					"protocolProfileBehavior": {
-						"disableBodyPruning": true
-					},
-					"request": {
-						"auth": {
-							"type": "bearer",
-							"bearer": [
-								{
-									"key": "token",
-									"value": "540bd43cf706368d43ecbfd49df5a059c92c9f3306de459bf39c3a29b96ebfe5",
-									"type": "string"
-								}
-							]
-						},
-						"method": "GET",
-						"header": [],
-						"body": {
-							"mode": "raw",
-							"raw": "",
-							"options": {
-								"raw": {
-									"language": "json"
-								}
-							}
-						},
-						"url": {
-							"raw": "https://simple-books-api.glitch.me/orders/:orderId",
-							"protocol": "https",
-							"host": [
-								"simple-books-api",
-								"glitch",
-								"me"
-							],
-							"path": [
-								"orders",
-								":orderId"
-							],
-							"variable": [
-								{
-									"key": "orderId",
-									"value": "AaX7WGCUeHH3lRwGRh57M"
-								}
-							]
-						}
-					},
-					"response": []
-				}
-			]
-		},
-		{
-			"name": "Update an order",
-			"item": [
-				{
-					"name": "Update an order",
-					"event": [
-						{
-							"listen": "test",
-							"script": {
-								"exec": [
-									""
-								],
-								"type": "text/javascript"
-							}
-						}
-					],
-					"request": {
-						"auth": {
-							"type": "bearer",
-							"bearer": [
-								{
-									"key": "token",
-									"value": "540bd43cf706368d43ecbfd49df5a059c92c9f3306de459bf39c3a29b96ebfe5",
-									"type": "string"
-								}
-							]
-						},
-						"method": "POST",
-						"header": [],
-						"body": {
-							"mode": "raw",
-							"raw": "{\n    \"bookId\": 1,\n    \"customerName\": \"Testify Academy\"\n}",
-							"options": {
-								"raw": {
-									"language": "json"
-								}
-							}
-						},
-						"url": {
-							"raw": "https://simple-books-api.glitch.me/orders/",
-							"protocol": "https",
-							"host": [
-								"simple-books-api",
-								"glitch",
-								"me"
-							],
-							"path": [
-								"orders",
-								""
-							],
-							"query": [
-								{
-									"key": "",
-									"value": "",
-									"disabled": true
-								}
-							]
-						}
-					},
-					"response": []
-				}
-			]
-		},
-		{
-			"name": "Delete an order",
-			"item": [
-				{
-					"name": "Delete an order",
-					"event": [
-						{
-							"listen": "test",
-							"script": {
-								"exec": [
-									""
-								],
-								"type": "text/javascript"
-							}
-						}
-					],
-					"request": {
-						"auth": {
-							"type": "bearer",
-							"bearer": [
-								{
-									"key": "token",
-									"value": "540bd43cf706368d43ecbfd49df5a059c92c9f3306de459bf39c3a29b96ebfe5",
-									"type": "string"
-								}
-							]
-						},
-						"method": "DELETE",
-						"header": [],
-						"body": {
-							"mode": "raw",
-							"raw": "",
-							"options": {
-								"raw": {
-									"language": "json"
-								}
-							}
-						},
-						"url": {
-							"raw": "https://simple-books-api.glitch.me/orders/:orderId",
-							"protocol": "https",
-							"host": [
-								"simple-books-api",
-								"glitch",
-								"me"
-							],
-							"path": [
-								"orders",
-								":orderId"
-							],
-							"variable": [
-								{
-									"key": "orderId",
-									"value": "rObASEWYlVrRX6cTAEgbt"
-								}
-							]
-						}
-					},
-					"response": []
-				}
-			]
-		},
-		{
-			"name": "Register API Client",
-			"event": [
-				{
-					"listen": "test",
-					"script": {
-						"exec": [
-							""
-						],
-						"type": "text/javascript"
-					}
-				}
-			],
-			"request": {
-				"auth": {
-					"type": "oauth2",
-					"oauth2": [
-						{
-							"key": "accessTokenUrl",
-							"value": "https://demo.fusio-project.org/",
-							"type": "string"
-						},
-						{
-							"key": "tokenName",
-							"value": "Authority",
-							"type": "string"
-						},
-						{
-							"key": "client_authentication",
-							"value": "header",
-							"type": "string"
-						},
-						{
-							"key": "grant_type",
-							"value": "client_credentials",
-							"type": "string"
-						},
-						{
-							"key": "addTokenTo",
-							"value": "header",
-							"type": "string"
-						}
-					]
-				},
-				"method": "POST",
-				"header": [],
-				"body": {
-					"mode": "raw",
-					"raw": "{\n   \"clientName\": \"Ibironke\",\n   \"clientEmail\": \"ibironkeyekinni@gmail.com\"\n}",
-					"options": {
-						"raw": {
-							"language": "json"
-						}
-					}
-				},
-				"url": {
-					"raw": "https://simple-books-api.glitch.me/api-clients/",
-					"protocol": "https",
-					"host": [
-						"simple-books-api",
-						"glitch",
-						"me"
-					],
-					"path": [
-						"api-clients",
-						""
-					],
-					"query": [
-						{
-							"key": "",
-							"value": null,
-							"disabled": true
-						}
-					]
-				}
-			},
-			"response": []
-		},
-		{
-			"name": "Get API Status",
-			"request": {
-				"method": "GET",
-				"header": [],
-				"url": {
-					"raw": "https://simple-books-api.glitch.me/status",
-					"protocol": "https",
-					"host": [
-						"simple-books-api",
-						"glitch",
-						"me"
-					],
-					"path": [
-						"status"
-					]
-				}
-			},
-			"response": []
 		}
 	]
 }
